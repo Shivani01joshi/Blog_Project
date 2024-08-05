@@ -1,0 +1,46 @@
+<!-- blog_list.html -->
+{% extends "base.html" %}
+{% block content %}
+    
+    <div class="container">
+        {% if messages %}
+    <ul class="alert alert-success">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </ul>
+{% endif %}
+        <h1 class="text-center">List of Blogs</h1>
+        
+        <div class="row">
+            {% for blog in page_obj %}
+            <div class="col-md-4 shadow">
+                <div class="card" style="width: 20rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ blog.title }}</a></h5>
+                        <p>Author: {{ blog.author }}</p>
+                        <p>Date Posted: {{ blog.date_posted }}</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'blog_detail' blog.id %}" class="btn btn-warning">Read Blog</a>
+                        <a href="{% url 'update_blog' blog.pk %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'delete_blog' blog.pk %}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+            
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+             <span>{{page_obj.number}}</span>
+            {% if page_obj.has_next %}
+                 <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+   
+    <!-- Bootstrap JS (optional, for forms or other components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% endblock %}
